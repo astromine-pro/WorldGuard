@@ -114,6 +114,7 @@ public abstract class YamlConfigurationManager extends ConfigurationManager {
         redefineRegionMessage = config.getString("messages.region-message.redefine-region", "<blue>Регион '<region>' успешно обновлён с новым выбором.");
         claimRegionMessage = config.getString("messages.region-message.claim-region", "<yellow>Регион '<region>' успешно захвачен.");
         selectRegionMessage = config.getString("messages.region-message.select-region", "<purple>Регион '<region>' выбран как WorldEdit выбор.");
+        removeRegionSuccessMessage = config.getString("messages.region-message.remove-region", "<green>Регион '<region>' успешно удален.");
 
         useGodPermission = config.getBoolean("auto-invincible", config.getBoolean("auto-invincible-permission", false));
         useGodGroup = config.getBoolean("auto-invincible-group", false);
