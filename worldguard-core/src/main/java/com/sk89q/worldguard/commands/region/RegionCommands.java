@@ -848,13 +848,17 @@ public final class RegionCommands extends RegionCommandsBase {
         AsyncCommandBuilder.wrap(task, sender)
                 .registerWithSupervisor(WorldGuard.getInstance().getSupervisor(), description)
                 .sendMessageAfterDelay("Please wait... removing region.")
-                .onSuccess((Component) null, removed ->
+                .onSuccess((Component) null, removed -> {
+                    String msg = config.removeRegionSuccessMessage != null ? config.removeRegionSuccessMessage : "<green>Region <region> removed.";
+                    if (bukkitPlayer != null) {
                         bukkitPlayer.sendRichMessage(
-                                config.removeRegionSuccessMessage,
+                                msg,
                                 Placeholder.unparsed("region", removed.stream().map(ProtectedRegion::getId).collect(Collectors.joining(", ")))
-                        )
-
-                )
+                        );
+                    } else {
+                        sender.print(msg.replace("<region>", removed.stream().map(ProtectedRegion::getId).collect(Collectors.joining(", "))).replaceAll("<[^>]+>", ""));
+                    }
+                })
                 .onFailure("Failed to remove region", WorldGuard.getInstance().getExceptionConverter())
                 .buildAndExec(WorldGuard.getInstance().getExecutorService());
     }
