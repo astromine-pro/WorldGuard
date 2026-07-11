@@ -39,7 +39,7 @@ public class GeneralCommands {
         this.worldGuard = worldGuard;
     }
     
-    @Command(aliases = {"god"}, usage = "[player]",
+    @Command(aliases = {"wggod"}, usage = "[player]",
             desc = "Enable godmode on a player", flags = "s", max = 1)
     public void god(CommandContext args, Actor sender) throws CommandException, AuthorizationException {
         Iterable<? extends LocalPlayer> targets = null;
@@ -84,7 +84,7 @@ public class GeneralCommands {
         }
     }
     
-    @Command(aliases = {"ungod"}, usage = "[player]",
+    @Command(aliases = {"wgungod"}, usage = "[player]",
             desc = "Disable godmode on a player", flags = "s", max = 1)
     public void ungod(CommandContext args, Actor sender) throws CommandException, AuthorizationException {
         Iterable<? extends LocalPlayer> targets;
@@ -127,7 +127,7 @@ public class GeneralCommands {
         }
     }
     
-    @Command(aliases = {"heal"}, usage = "[player]", desc = "Heal a player", flags = "s", max = 1)
+    @Command(aliases = {"wgheal"}, usage = "[player]", desc = "Heal a player", flags = "s", max = 1)
     public void heal(CommandContext args, Actor sender) throws CommandException, AuthorizationException {
 
         Iterable<? extends LocalPlayer> targets = null;

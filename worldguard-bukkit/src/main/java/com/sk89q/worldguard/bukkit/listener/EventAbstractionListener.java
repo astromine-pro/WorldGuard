@@ -150,6 +150,7 @@ import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.projectiles.ProjectileSource;
@@ -906,6 +907,24 @@ public class EventAbstractionListener extends AbstractListener {
                 if (item.getType() != Material.AIR) {
                     Events.fireToCancel(event, new UseItemEvent(event, create(damager), event.getEntity().getWorld(), item));
                 }
+            }
+
+            // Spears apply durability damage as part of their attack even when the
+            // hit is blocked, so restore it when the attack was cancelled in a region
+            if (event.isCancelled() && damager instanceof Player player
+                    && Materials.isSpear(player.getInventory().getItemInMainHand().getType())
+                    && player.getInventory().getItemInMainHand().getItemMeta() instanceof Damageable meta) {
+                final int originalDamage = meta.getDamage();
+                player.getScheduler().run(getPlugin(), scheduledTask -> {
+                    ItemStack current = player.getInventory().getItemInMainHand();
+                    if (Materials.isSpear(current.getType())
+                            && current.getItemMeta() instanceof Damageable currentMeta
+                            && currentMeta.getDamage() > originalDamage) {
+                        currentMeta.setDamage(originalDamage);
+                        current.setItemMeta(currentMeta);
+                        player.getInventory().setItemInMainHand(current);
+                    }
+                }, null);
             }
         }
     }

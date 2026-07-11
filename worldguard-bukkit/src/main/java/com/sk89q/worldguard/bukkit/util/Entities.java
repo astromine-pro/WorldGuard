@@ -35,6 +35,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Flying;
+import org.bukkit.entity.HappyGhast;
 import org.bukkit.entity.Hanging;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Minecart;
@@ -173,6 +174,7 @@ public final class Entities {
      * @return true if hostile
      */
     public static boolean isHostile(Entity entity) {
+        if (entity instanceof HappyGhast) return false;
         return entity instanceof Monster
                 || entity instanceof Slime
                 || entity instanceof Flying
